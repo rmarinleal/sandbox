@@ -6,17 +6,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class AbstractDefaultController
- * @package App\Controller\Form
+ * @package App\Controller
  */
 class AbstractDefaultController extends AbstractController
 {
     /**
-     * Ko, rejected order
+     * Scope
      */
-    const SCOPE = 'DEFAULT';
+    const SCOPE = 'ABSTRACT';
 
     /**
-     * FormController constructor
+     * AbstractController constructor
      */
     public function __construct() {
 
