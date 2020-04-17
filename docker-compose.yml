@@ -1,0 +1,29 @@
+version: "3.1"
+services:
+    sandbox-webserver:
+      container_name: sandbox-webserver
+      build:
+        dockerfile: images/nginx/Dockerfile
+        context: .
+      ports:
+       - "8099:80"
+      extra_hosts:
+      - "sandbox.docker:127.0.0.1"
+
+    sandbox-php-fpm:
+      container_name: sandbox-php-fpm
+      build:
+        dockerfile: images/php-fpm/Dockerfile
+        context: .
+      working_dir: /var/www
+      volumes:
+        - .:/var/www
+
+    sandbox-mysql:
+      container_name: sandbox-mysql
+      image: mysql:5.6.23
+      environment:
+        - MYSQL_ROOT_PASSWORD=password123
+        - MYSQL_DATABASE=sandbox
+      ports:
+        - "33006:3306"
