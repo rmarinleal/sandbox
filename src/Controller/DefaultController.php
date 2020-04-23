@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * Class defaultController
  * @package App\Controller\Form
@@ -19,7 +20,6 @@ class DefaultController extends AbstractDefaultController
      * @param Request $request
      *
      * @Route("/getRequest", methods={"GET"}, name="get_action")
-     * @Route("/getRequest/", methods={"GET"}, name="get_action_slash")
      *
      * @return Response
      *
@@ -39,7 +39,6 @@ class DefaultController extends AbstractDefaultController
      * @param Request $request
      *
      * @Route("/postRequest", methods={"POST"}, name="post_action")
-     * @Route("/postRequest/", methods={"POST"}, name="post_action_slash")
      *
      * @return Response
      *
@@ -52,6 +51,29 @@ class DefaultController extends AbstractDefaultController
             return new JsonResponse($fields);
         } catch (\Exception $exception) {
             throw new BadRequestHttpException('Post error exception');
+        }
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @Route("/httpfulRequest", methods={"GET"}, name="httpful_action")
+     *
+     * @return Response
+     *
+     * @throws BadRequestHttpException
+     */
+    public function httpfulRequestAction(Request $request)
+    {
+        try {
+            $url = "https://raw.githubusercontent.com/rmarinleal/sandbox/master/composer.json";
+            $response = \Httpful\Request::get($url)
+                ->expectsJSON()
+                ->send();
+
+                return new JsonResponse($response->body);
+        } catch (\Exception $exception) {
+            throw new BadRequestHttpException('The provided URL is not a valid JSON');
         }
     }
 }
